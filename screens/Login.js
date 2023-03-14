@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
                     <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
                         <Text style={styles.text}>Log In</Text>
                     </TouchableOpacity>
-                    <Text style={{ color: 'gray', fontweight: '600', fontSize: 14, marginTop: 20 }}>Don't have an account? </Text>
+                    <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14, marginTop: 20 }}>Don't have an account? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate("SignUp")} style={{marginTop: 10}}>
                         <Text style={{ fontSize: 16, fontWeight: '600', color: '#0f4c5c' }}> Sign Up</Text>
                     </TouchableOpacity>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         height: 58,
         width: '55%',
         marginBottom: 15,
-        fontsize: 16,
+        fontSize: 16,
         borderRadius: 10,
         padding: 12,
     },

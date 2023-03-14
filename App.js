@@ -7,8 +7,9 @@ import { auth } from './config/firebase';
 
 import Login from './screens/Login.js';
 import SignUp from './screens/SignUp';
-import Cases from './screens/Cases';
+import AddCases from './screens/AddCases';
 import Settings from './screens/Settings';
+import Cases from './screens/Cases';
 
 const Stack = createStackNavigator();
 export const AuthenticatedUserContext = createContext({});
@@ -24,8 +25,9 @@ export const AuthenticatedUserProvider = ({ children }) => {
 
 function ChatStack() {
   return (
-    <Stack.Navigator defaultScreenOptions={Cases}>
+    <Stack.Navigator defaultScreenOptions={AddCases} screenOptions={{ headerShown: false }}>
       <Stack.Screen name='Cases' component={Cases} />
+      <Stack.Screen name='AddCases' component={AddCases} />
       <Stack.Screen name='Settings' component={Settings} />
     </Stack.Navigator>
   )

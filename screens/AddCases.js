@@ -3,11 +3,34 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button } from 'rea
 import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Settings() {
 
+const AddCases = () => {
+    const [status, setStatus] = useState('');
+    const [title, setTitle] = useState("");
+    const [longitude, setLongitude] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [mopName, setMopName] = useState("");
+    const [mopAddress, setMopAddress] = useState("");
+    const [mopPhone, setMopPhone] = useState("");
+    const [files, setFiles] = useState(null);
+    const [notes, setNotes] = useState("");
+    
     const navigation = useNavigation();
 
-    const [alert, setAlert] = useState("Hello");
+    const handleCaseSubmit = () => {
+        // Handle case submission
+    };
+
+    const handleChooseFiles = () => {
+        // Handle case submission
+    };
+
+    const handleCasesPress = () => {
+    };
+
+    const handleAddNewPress = () => {
+    };
+
 
     return (
         <View style={styles.container}>
@@ -15,40 +38,85 @@ export default function Settings() {
                 <TouchableOpacity style={styles.navButton && { width: 80 }} onPress={() => navigation.navigate("Cases")}>
                     <Text style={styles.navButtonTextUnclicked}>Cases</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton && { width: 90 }} >
-                    <Text style={styles.navButtonTextClicked}>Settings</Text>
+                <TouchableOpacity style={styles.navButton && { width: 90 }} onPress={() => navigation.navigate("Settings")}>
+                    <Text style={styles.navButtonTextUnclicked}>Settings</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton && { width: 120 }} onPress={() => navigation.navigate("AddCases")}>
-                    <Text style={styles.navButtonTextUnclicked}>Add New Case</Text>
+                <TouchableOpacity style={styles.navButton && { width: 120 }}>
+                    <Text style={styles.navButtonTextClicked}>Add New Case</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.form}>
-                <Text style={styles.title}>Alerts</Text>
+                <Text style={styles.title}>Add Case</Text>
                 <TextInput
                     style={styles.input}
-                    value={alert}
-                    onChangeText={setAlert}
-                />
-                <TouchableOpacity style={styles.button} onPress={console.log(alert)}>
-                    <Text style={styles.buttonText}>Save Changes</Text> 
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.input}
+                    placeholder="Case Status"
+                    onChangeText={(text) => setStatus(text)}
+                    value={status}
+                    editable="false"
+                    placeholderTextColor="grey"
                 />
                 <TextInput
                     style={styles.input}
+                    placeholder="Title"
+                    onChangeText={(text) => setTitle(text)}
+                    value={title}
+                    placeholderTextColor="grey"
                 />
-                <TouchableOpacity style={styles.mediaButton} >
+                <View style={styles.locationContainer}>
+                    <TextInput
+                        style={styles.locationInput}
+                        placeholder="Longitude"
+                        onChangeText={(text) => setLongitude(text)}
+                        value={longitude}
+                        placeholderTextColor="grey"
+                    />
+                    <TextInput
+                        style={styles.locationInput}
+                        placeholder="Latitude"
+                        onChangeText={(text) => setLatitude(text)}
+                        value={latitude}
+                        placeholderTextColor="grey"
+                    />
+                </View>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Member of Public Name"
+                    onChangeText={(text) => setMopName(text)}
+                    value={mopName}
+                    placeholderTextColor="grey"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Member of Public Address"
+                    onChangeText={(text) => setMopAddress(text)}
+                    value={mopAddress}
+                    placeholderTextColor="grey"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Member of Public Phone"
+                    onChangeText={(text) => setMopPhone(text)}
+                    value={mopPhone}
+                    placeholderTextColor="grey"
+                />
+                <TextInput
+                    style={styles.notesInput}
+                    placeholder="Notes"
+                    onChangeText={(text) => setNotes(text)}
+                    value={notes}
+                    placeholderTextColor="grey"
+                />
+                <TouchableOpacity style={styles.mediaButton} onPress={handleChooseFiles}>
                     <Feather name='upload' style={{ marginRight: 7 }} size={24} color="#0f4c5c" />
                     <Text style={styles.mediaButtonText}>Upload Media</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} >
+                <TouchableOpacity style={styles.button} onPress={handleCaseSubmit}>
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -93,14 +161,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     locationInput: {
-        flex: 1,
         height: 40,
         borderWidth: 1,
         borderColor: '#ccc',
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
-        marginEnd: 15,
+        width: '49%',
     },
     button: {
         backgroundColor: '#0f4c5c',
@@ -152,3 +219,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default AddCases;
