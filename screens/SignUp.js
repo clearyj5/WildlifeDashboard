@@ -5,15 +5,18 @@ import { StyleSheet, Text, View, Button, TextInput, Image, SafeAreaView, Touchab
 import { doc, setDoc } from "firebase/firestore";
 import { auth, database, storage } from '../config/firebase';
 import { useNavigation } from "@react-navigation/native";
-const backImage = require("../assets/KWR_logo.png");
+import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
+
+const backImage = require("../assets/SignUp Screen Logo.png");
 
 export default function SignUp({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [displayName, setDisplayName] = useState("");
 
     const onHandleSignUp = async () => {
-        if (email != "" && password != "" && displayName != "") {
+        if ((email != "" && password != "" && displayName != "") && (password === passwordConfirm)) {
             const res = await createUserWithEmailAndPassword(auth, email, password)
 
             try {
@@ -24,9 +27,10 @@ export default function SignUp({ navigation }) {
                 });
                 //create user on firestore
                 await setDoc(doc(database, "users", res.user.uid), {
-                    uid: res.user.uid,
+                    id: res.user.uid,
                     displayName,
                     email,
+                    type: "ADMIN"
                     // photoURL: downloadURL,
                 });
 
@@ -36,7 +40,17 @@ export default function SignUp({ navigation }) {
                 console.log(err);
             }
         }
+        else if (password !== passwordConfirm) {
+            window.alert("Passwords did not match, please try again");
+        }
+        else {
+            window.alert("Please enter valid details");
+        }
     };
+
+    const handleChooseProfilePic = async () => {
+        //handle Choose profile pic
+    }
 
     return (
         <View style={styles.container}>
@@ -47,6 +61,7 @@ export default function SignUp({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder='Enter Display Name'
+                        placeholderTextColor={'gray'}
                         autoCapitalize='none'
                         autofocus={true}
                         value={displayName}
@@ -55,6 +70,7 @@ export default function SignUp({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder='Enter Email'
+                        placeholderTextColor={'gray'}
                         autoCapitalize='none'
                         keyboardType="email-address"
                         textContentType="emailAddress"
@@ -65,6 +81,7 @@ export default function SignUp({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder='Enter Password'
+                        placeholderTextColor={'gray'}
                         autoCapitalize='none'
                         autocorrect={false}
                         secureTextEntry={true}
@@ -72,6 +89,21 @@ export default function SignUp({ navigation }) {
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                     />
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Confirm Password'
+                        placeholderTextColor={'gray'}
+                        autoCapitalize='none'
+                        autocorrect={false}
+                        secureTextEntry={true}
+                        textContentType="password"
+                        value={passwordConfirm}
+                        onChangeText={(text) => setPasswordConfirm(text)}
+                    />
+                    <TouchableOpacity style={styles.mediaButton} onPress={handleChooseProfilePic}>
+                        <Feather name='upload' style={{ marginRight: 7 }} size={24} color="#0f4c5c" />
+                        <Text style={styles.mediaButtonText}>Upload Profile Picture</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onHandleSignUp}>
                         <Text style={styles.text}>Sign Up</Text>
                     </TouchableOpacity>
@@ -100,7 +132,7 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: "#F6F7FB",
-        height: 58,
+        height: 45,
         width: '55%',
         marginBottom: 15,
         fontSize: 16,
@@ -108,12 +140,12 @@ const styles = StyleSheet.create({
         padding: 12,
     },
     backImage: {
-        height: "50%",
+        height: "70%",
         resizeMode: 'cover',
     },
     whiteSheet: {
         width: '100%',
-        height: "60%",
+        height: "75%",
         position: "absolute",
         bottom: 0,
         backgroundColor: '#fff',
@@ -126,9 +158,22 @@ const styles = StyleSheet.create({
         marginHorizontal: 200,
         backgroundColor: '#fff'
     },
+    mediaButton: {
+        backgroundColor: 'white',
+        flexDirection: "row",
+        width: '100%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+    },
+    mediaButtonText: {
+        color: '#000',
+        fontSize: 15,
+    },
     button: {
         backgroundColor: '#0f4c5c',
-        height: 58,
+        height: 55,
         width: '55%',
         borderRadius: 10,
         justifyContent: 'center',

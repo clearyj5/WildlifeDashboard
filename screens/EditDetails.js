@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button, SafeAreaView, alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native';
 import { Feather, Entypo, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { collection, addDoc, orderBy, query, onSnapshot, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, orderBy, query, onSnapshot, updateDoc, getDoc, doc, where } from 'firebase/firestore';
 import { auth, database } from '../config/firebase';
 import { signOut } from "firebase/auth";
-import Alert from "react-native-awesome-alerts";
 
-const AddCases = () => {
-    const [status, setStatus] = useState('');
+const EditDetails = ({ route }) => {
+
+    const caseID = String.toString(route.params.paramkey);
+
+    const [status, setStatus] = useState("");
     const [title, setTitle] = useState("");
-    const [species, setSpecies] = useState('');
+    const [species, setSpecies] = useState("");
     const [longitude, setLongitude] = useState("");
     const [latitude, setLatitude] = useState("");
     const [mopName, setMopName] = useState("");
@@ -22,39 +24,7 @@ const AddCases = () => {
     const navigation = useNavigation();
 
     const onHandleSubmit = async () => {
-
-        if (status != "Active" && status != "In Progress" && status != "Rescued") {
-            window.alert("Please enter a valid Status, either 'Active', 'In Progress', or 'Rescued'")
-        }
-        else {
-            const docRef = await addDoc(collection(database, "cases"), {
-                status: status,
-                title: title,
-                species: species,
-                longitude: parseFloat(longitude),
-                latitude: parseFloat(latitude),
-                mopName: mopName,
-                mopAddress: mopAddress,
-                mopPhone: mopPhone,
-                notes: notes,
-                responders: "n/a",
-            });
-    
-            await updateDoc(docRef, {
-                id: docRef.id,
-            })
-    
-            setStatus("");
-            setTitle("");
-            setSpecies("");
-            setLongitude("");
-            setLatitude("");
-            setMopName("");
-            setMopAddress("");
-            setMopPhone("");
-            setNotes("");
-            setFiles([]);
-        }
+        
     }
 
     const onSignOut = () => {
@@ -74,8 +44,8 @@ const AddCases = () => {
                 <TouchableOpacity style={styles.navButton && { width: 80 }} onPress={() => navigation.navigate("Settings")}>
                     <Text style={styles.navButtonTextUnclicked}>Alerts</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton && { width: 140 }}>
-                    <Text style={styles.navButtonTextClicked}>Add New Case</Text>
+                <TouchableOpacity style={styles.navButton && { width: 140 }} onPress={() => navigation.navigate("AddCases")}>
+                    <Text style={styles.navButtonTextUnclicked}>Add New Case</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.navButton && { width: 80 }} onPress={() => navigation.navigate("Chat")}>
                     <Text style={styles.navButtonTextUnclicked}>Chat</Text>
@@ -85,7 +55,7 @@ const AddCases = () => {
                 </TouchableOpacity>
             </View>
             <View style={styles.container}>
-                <Text style={styles.title}>Add New Case</Text>
+                <Text style={styles.title}>Edit Case Details</Text>
                 <View style={styles.form}>
                     <View style={styles.column}>
                         <Text style={styles.heading}>Status</Text>
@@ -173,7 +143,7 @@ const AddCases = () => {
                         <Text style={styles.mediaButtonText}>Upload Media</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onHandleSubmit}>
-                        <Text style={styles.buttonText}>Submit</Text>
+                        <Text style={styles.buttonText}>Submit Changes</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -301,4 +271,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddCases;
+export default EditDetails;

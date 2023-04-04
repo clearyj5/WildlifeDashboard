@@ -12,7 +12,7 @@ export default function Login({ navigation }) {
         if (email != "" && password != "") {
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => console.log("Login Success"))
-                .catch((err) => Alert.alert("Login error", err.message));
+                .catch((err) => window.alert("Invalid Login details", err.message));
         }
     };
 
@@ -25,6 +25,7 @@ export default function Login({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder='Enter Email'
+                        placeholderTextColor={'gray'}
                         autoCapitalize='none'
                         keyboardType="email-address"
                         textContentType="emailAddress"
@@ -35,6 +36,7 @@ export default function Login({ navigation }) {
                     <TextInput
                         style={styles.input}
                         placeholder='Enter Password'
+                        placeholderTextColor={'gray'}
                         autoCapitalize='none'
                         autocorrect={false}
                         secureTextEntry={true}

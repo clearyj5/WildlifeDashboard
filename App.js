@@ -8,8 +8,10 @@ import { auth } from './config/firebase';
 import Login from './screens/Login.js';
 import SignUp from './screens/SignUp';
 import AddCases from './screens/AddCases';
-import Settings from './screens/Settings';
+import Alerts from './screens/Alerts';
 import Cases from './screens/Cases';
+import Chat from './screens/Chat';
+import EditDetails from './screens/EditDetails';
 
 const Stack = createStackNavigator();
 export const AuthenticatedUserContext = createContext({});
@@ -23,12 +25,14 @@ export const AuthenticatedUserProvider = ({ children }) => {
   )
 }
 
-function ChatStack() {
+function MainStack() {
   return (
-    <Stack.Navigator defaultScreenOptions={AddCases} screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Cases' component={Cases} />
-      <Stack.Screen name='AddCases' component={AddCases} />
-      <Stack.Screen name='Settings' component={Settings} />
+    <Stack.Navigator defaultScreenOptions={Alerts}>
+      <Stack.Screen name='Cases' component={Cases} options={{ headerShown: false }}/>
+      <Stack.Screen name='AddCases' component={AddCases} options={{ headerShown: false }}/>
+      <Stack.Screen name='Settings' component={Alerts} options={{ headerShown: false }}/>
+      <Stack.Screen name='EditDetails' component={EditDetails} options={{ headerShown: false }}/>
+      <Stack.Screen name='Chat' component={Chat} options={{ headerShown: true }}/>
     </Stack.Navigator>
   )
 }
@@ -64,7 +68,7 @@ function RootNavigator() {
   }
   return (
     <NavigationContainer>
-      {currentUser ? <ChatStack /> : <AuthStack />}
+      {currentUser ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   )
 }
